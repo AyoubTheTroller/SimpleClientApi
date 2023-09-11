@@ -1,0 +1,8 @@
+/obj
+/bin
+
+# For security measures
+/Properties 
+
+# VS Code directories
+.vscode/
