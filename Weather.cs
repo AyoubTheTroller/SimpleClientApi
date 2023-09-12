@@ -1,5 +1,3 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
 public class Weather : BaseApiClient
 {
     private const string BaseUrl = "https://api.openweathermap.org/data/3/onecall/";

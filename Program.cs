@@ -1,30 +1,22 @@
-class Program
+// Jokes And Weather Apis
+/*
+JokesAndWeatherApis start = new JokesAndWeatherApis();
+await start.JokesAndWeather();
+*/
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+
+// Test asyncronous operation, the readfile will take a lot of time because the file is 200mb so meanwhile we call /readfile we can call /api too and still be able to use it.
+app.MapGet("/api", async () => 
 {
-    static async Task Main(string[] args){
-        var jokeApiClient = new Jokes();
+    using HttpClient client = new HttpClient();
+    return await client.GetStringAsync("https://official-joke-api.appspot.com/jokes/programming/random");
+});
 
-        Console.WriteLine("\nFetching a programming joke...");
-        try
-        {
-            JokeResponse[] joke = await jokeApiClient.GetRandomProgrammingJokeAsync();
-            Console.WriteLine($"JokeSetup: {joke[0].Setup} \nJokePunchline: {joke[0].Punchline}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
+app.MapGet("/readfile", async () => 
+{
+    return await File.ReadAllTextAsync("TestData/repeated_phrase_200mb.txt");
+});
 
-        var weatherClient = new Weather();
-        Console.WriteLine("\nFetching weather");
-        try
-        {
-            String weather = await weatherClient.GetWheaterOfCity();
-            Console.WriteLine(weather);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-
-    }
-}
+app.Run();
